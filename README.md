@@ -2,86 +2,74 @@
 [![PyPI](https://img.shields.io/pypi/v/linien-gui?color=blue)](https://pypi.org/project/linien-gui/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Linien ‒ User-friendly locking of lasers using RedPitaya (STEMlab 125-14) that just works
+Linien ‒ 使用 RedPitaya (STEMlab 125-14) 进行激光锁定的用户友好工具，开箱即用
 =========================================================================================
 
 <img align="right" src="https://raw.githubusercontent.com/linien-org/linien/master/docs/icon.png" width="20%">
 
-User-friendly locking of lasers using RedPitaya (STEMlab 125-14) that just works.
-Linien aims to follow the UNIX philosophy of doing a single thing (locking using intelligent algorithms) very well.
-It was mainly developed for locking spectroscopy signals but may also be used for Pound-Drever-Hall or other lock-in techniques as well as simple PID operation.
-Linien is built with Python and [Migen](https://github.com/m-labs/migen) and is based on [red pid](https://github.com/quartiq/redpid).
+使用 RedPitaya (STEMlab 125-14) 进行激光锁定的用户友好工具，开箱即用。
+Linien 遵循 UNIX 哲学，即把一件事（使用智能算法进行锁定）做到极致。
+它主要用于光谱信号的锁定，但也适用于 Pound-Drever-Hall 或其他锁相技术，以及简单的 PID 控制。
+Linien 使用 Python 和 [Migen](https://github.com/m-labs/migen) 构建，基于 [red pid](https://github.com/quartiq/redpid) 开发。
 
-Features
+功能特性
 --------
 
--   **All included**: Sinusoidal modulation (up to 50 MHz), demodulation (1f to 5f), filtering
-    and servo implemented on the FPGA.
--   **Client-server architecture**: Autonomous operation on RedPitaya.
-    One or multiple GUI clients or python clients can connect to the server.
--   **Autolock**: Click and drag over a line, and Linien will
-    automatically lock to it. This algorithm is built to be noise and jitter tolerant.
--   **IQ demodulation**: Optimize demodulation phase in an instant
--   **Noise analysis**: Record power spectral density (PSD) of the error signal for analyzing noise of the locked laser and for optimizing PID parameters
--   **Lock detection**: Linien is capable of detecting loss of lock (temporarily disabled, use [v0.3.2](https://github.com/linien-org/linien/releases/tag/v0.3.2) if you rely in this feature
--   **Automatic relocking**: if lock is lost, it relocks autonomously (temporarily disabled, use [v0.3.2](https://github.com/linien-org/linien/releases/tag/v0.3.2) if you rely in this feature)
--   **Machine learning** is used to tune the spectroscopy parameters in order to optimize the signal
--   **Remote-controllable**: the client libraries can be used to control or monitor the spectroscopy lock with Python.
--   **Combined FMS+MTS**: Linien supports dual-channel spectroscopy that can be
-    used to implement [combined
-    FMS+MTS](https://arxiv.org/pdf/1701.01918.pdf)
--   **Logging**: Lock status and parameters can be logged to InfluxDB v2.
--   **Second integrator** for slow control of piezo in an ECDL
--   **Additional analog outputs** may be used using the GUI or python client (ANALOG_OUT 1, 2 and 3)
--   **16 GPIO outputs** may be programmed (e.g. for controlling other devices)
+-   **功能齐全**：正弦调制（最高 50 MHz）、解调（1f 到 5f）、滤波和伺服控制均在 FPGA 上实现。
+-   **客户端-服务器架构**：在 RedPitaya 上自主运行。一个或多个 GUI 客户端或 Python 客户端可同时连接到服务器。
+-   **自动锁定**：点击并拖动选择一条谱线，Linien 将自动锁定到该谱线。该算法具有抗噪声和抗抖动能力。
+-   **IQ 解调**：即时优化解调相位
+-   **噪声分析**：记录误差信号的功率谱密度（PSD），用于分析锁定激光的噪声并优化 PID 参数
+-   **锁定检测**：Linien 能够检测锁定丢失（暂时禁用，如需此功能请使用 [v0.3.2](https://github.com/linien-org/linien/releases/tag/v0.3.2)）
+-   **自动重新锁定**：如果锁定丢失，将自动重新锁定（暂时禁用，如需此功能请使用 [v0.3.2](https://github.com/linien-org/linien/releases/tag/v0.3.2)）
+-   **机器学习**用于调节光谱参数以优化信号
+-   **远程控制**：客户端库可通过 Python 控制或监控光谱锁定。
+-   **FMS+MTS 组合**：Linien 支持双通道光谱，可用于实现 [组合 FMS+MTS](https://arxiv.org/pdf/1701.01918.pdf)
+-   **日志记录**：锁定状态和参数可记录到 InfluxDB v2。
+-   **第二积分器**用于 ECDL 中压电陶瓷的慢速控制
+-   **额外模拟输出**可通过 GUI 或 Python 客户端使用（ANALOG_OUT 1、2 和 3）
+-   **16 个 GPIO 输出**可编程（例如用于控制其他设备）
 
 ![image](https://raw.githubusercontent.com/linien-org/linien/master/docs/screencast.gif)
 
-## Getting started: Install Linien
+## 快速入门：安装 Linien
 
-Linien runs on Windows and Linux. For Windows users the [standalone
-binaries](#standalone-binary) containing the graphical user interface
-are recommended.
-These binaries run on your lab PC and contain everything to get Linien running on your RedPitaya.
+Linien 可在 Windows 和 Linux 上运行。对于 Windows 用户，推荐使用包含图形用户界面的[独立可执行文件](#standalone-binary)。
+这些可执行文件运行在实验室 PC 上，包含了让 Linien 在 RedPitaya 上运行所需的一切。
 
-Starting with Linien 2.0, only RedPitaya OS 2.x is supported. Linien 1.x works on RedPitaya OS
-but is no longer actively maintain.
+从 Linien 2.0 开始，仅支持 RedPitaya OS 2.x。Linien 1.x 可在 RedPitaya OS 上运行，但不再积极维护。
 
-### Standalone binary
+### 独立可执行文件
 
-You can download standalone binaries for Windows on
-[the releases page](https://github.com/linien-org/linien/releases) (download the binary in the assets
-section of the latest version). For Linux users, we recommend installation of `linien-gui` via pip.
+您可以在[发布页面](https://github.com/linien-org/linien/releases)下载 Windows 的独立可执行文件（下载最新版本 assets 部分中的可执行文件）。对于 Linux 用户，我们推荐通过 pip 安装 `linien-gui`。
 
-### Installation with pip
+### 使用 pip 安装
 
-Linien is written for python 3 and can be installed using python\'s package manager pip:
+Linien 使用 Python 3 编写，可通过 Python 的包管理器 pip 安装：
 
 ```bash
 pip install linien-gui
 ```
 
-The GUI can be started by calling 
+通过在终端中运行以下命令启动 GUI：
 
 ```bash
 linien
 ```
 
-in a terminal (on both Linux and Windows).
+（Linux 和 Windows 均可）
 
-In case you're only interested in the Python client and don't want to install the graphical application, you may use the `linien-client` package:
+如果您只需要 Python 客户端而不想安装图形应用程序，可以使用 `linien-client` 包：
 
 ```bash
 pip install linien-client
 ```
 
-### Installation of the server on the RedPitaya
+### 在 RedPitaya 上安装服务器
 
-The easiest way to install the server component of Linien on the RedPitaya, is to use the graphical
-user interface. The first time you are connecting to the RedPitaya, the server is automatically
-installed.
+在 RedPitaya 上安装 Linien 服务器组件最简单的方法是使用图形用户界面。首次连接到 RedPitaya 时，服务器会自动安装。
 
-In case you are using the `linien-client`, the server can be installed with
+如果您使用的是 `linien-client`，可以通过以下方式安装服务器：
 
 ```python
 from linien_client.device import Device
@@ -95,144 +83,142 @@ device = Device(
 install_remote_server(device)
 ```
 
-Finally, you can install the server manually, by connecting to the RedPitaya via SSH and
-then running
+最后，您也可以通过 SSH 连接到 RedPitaya 手动安装服务器，然后运行
 
 ```bash
 pip install linien-server
 ```
 
-The server can then be started as a systemd service by running
+然后可以将服务器作为 systemd 服务启动，运行
 
 ```bash
 linien-server start
 ```
 
-on the RedPitaya. To check the status of the server, run
+在 RedPitaya 上运行。要检查服务器状态，运行
 
 
 ```bash
 linien-server status
 ```
 
- For more options, run
+ 欲了解更多选项，运行
 
 ```bash
 linien-server --help
 ```
 
-Physical setup
+物理设置
 --------------
 
-The default setup looks like this:
+默认设置如下所示：
 
 ![image](https://raw.githubusercontent.com/linien-org/linien/master/docs/setup.png)
 
-You can also configure Linien for different setups, e.g. if you want to
-have the modulation frequency and the control on the same output. Additionally, it is possible to set up a slow integrator on ANALOG OUT 0 (0 V to 1.8 V).
+您也可以为不同的设置配置 Linien，例如，如果您希望调制频率和控制信号使用同一输出。此外，还可以在 ANALOG OUT 0（0 V 至 1.8 V）上设置慢速积分器。
 
 ![image](https://raw.githubusercontent.com/linien-org/linien/master/docs/explain-pins.png)
 
-Using the application
----------------------
+使用应用程序
+-------------
 
-### First run: connecting to the RedPitaya
+### 首次运行：连接到 RedPitaya
 
-After launching Linien you should supply details of your RedPitaya. Its host address is usually given by <pre>rp-<b>XXXXXX.local</b></pre>, where **XXXXXX** are the last 6 digits of the device's MAC address. You will find them on a sticker on the ethernet port:
+启动 Linien 后，您需要提供 RedPitaya 的连接信息。其主机地址通常为 <pre>rp-<b>XXXXXX.local</b></pre>，其中 **XXXXXX** 是设备 MAC 地址的最后 6 位数字。您可以在以太网端口上的贴纸上找到这些数字：
 
 ![image](https://raw.githubusercontent.com/linien-org/linien/master/docs/mac.jpg)
 
-| :exclamation: If connecting using host name fails, try using RP's IP address instead |
+| :exclamation: 如果使用主机名连接失败，请尝试使用 RP 的 IP 地址 |
 |--------------------------------------------------------------------------------------|
 
 
-Default value for user name and password is `root` (but you should probably change the password...).
+用户名和密码的默认值为 `root`（但您可能需要更改密码...）。
 
-When connecting to a RedPitaya for the first time, the Linien offers you to install the server component. Please note that this requires internet access on the RedPitaya (LAN access is not sufficient).
+首次连接到 RedPitaya 时，Linien 会提示您安装服务器组件。请注意，这需要 RedPitaya 具有互联网访问权限（仅局域网访问不够）。
 
-Once server libraries are installed, Linien will automatically run the server and connect to it. There's no need ever to start or stop anything on the server manually as the client takes care of this.
+服务器库安装完成后，Linien 将自动运行服务器并连接。您无需在服务器上手动启动或停止任何操作，客户端会自动处理这些。
 
-The server now operates autonomously: closing the client application doesn't have any influence on the lock status. You may also start multiple clients connecting to the same server.
+服务器将自主运行：关闭客户端应用程序不会影响锁定状态。您还可以启动多个客户端连接到同一服务器。
 
-### Setting things up
+### 初始设置
 
-The first thing to set up is the configuration of input and output signals:
+首先需要设置的是输入和输出信号的配置：
 
-Connect your AC spectroscopy signal to FAST IN 1. If you also want to monitor the DC spectroscopy signal, connect it to FAST IN 2.
+将交流光谱信号连接到 FAST IN 1。如果您还想监测直流光谱信号，请将其连接到 FAST IN 2。
 
-Then, adapt the output signals to your needs:
+然后，根据您的需要调整输出信号：
 
 ![image](https://raw.githubusercontent.com/linien-org/linien/master/docs/explain-pins.png)
 
-When you're done, head over to *Modulation, Sweep & Spectroscopy* to configure modulation frequency and amplitude. Once your setup is working, you should see something like this:
+完成后，进入*调制、扫描与光谱*（Modulation, Sweep & Spectroscopy）配置调制频率和幅度。当您的设置正常工作时，您应该会看到类似如下的画面：
 
 ![image](https://raw.githubusercontent.com/linien-org/linien/master/docs/spectrum.jpg)
 
-The bright red line is the demodulated spectroscopy signal. The dark red area is the signal strength obtained by [iq demodulation](https://en.wikipedia.org/wiki/In-phase_and_quadrature_components), i.e. the demodulation signal obtained when demodulating in phase at this point.
+亮红色线条是解调后的光谱信号。深红色区域是通过 [IQ 解调](https://en.wikipedia.org/wiki/In-phase_and_quadrature_components)获得的信号强度，即在该点进行同相解调时获得的解调信号。
 
-### PID-only mode
+### 纯 PID 模式
 
-PID-only mode is intended for bare PID operation (no demodulation or filtering), bypassing most of the FPGA functionality. If enabled, the signal flow is FAST IN 1 → PID → FAST OUT 2. This is useful, if aiming for a high control bandwidth: PID-only mode reduces propagation delay from 320 ns to 125 ns which may make a difference when phase-locking lasers.
+纯 PID 模式用于基本的 PID 操作（无解调或滤波），绕过大部分 FPGA 功能。启用后，信号流为 FAST IN 1 → PID → FAST OUT 2。这在需要高控制带宽时非常有用：纯 PID 模式将传播延迟从 320 ns 降低到 125 ns，这在激光锁相时可能会有明显差异。
 
-### Optimization of spectroscopy parameters using machine learning
+### 使用机器学习优化光谱参数
 
-Linien may use machine learning to maximize the slope of a line. As for the autolock, click and drag over the line you want to optimize. Then, the line is centered and the optimization starts. Please note that this only works if initially a distinguished zero-crossing is visible.
+Linien 可以使用机器学习来最大化谱线的斜率。与自动锁定类似，点击并拖动选择您要优化的谱线。然后，该谱线将被居中，优化过程随即开始。请注意，这仅在初始时能清晰看到零交叉点的情况下有效。
 
 ![image](https://raw.githubusercontent.com/linien-org/linien/master/docs/optimization.gif)
 
-### Using the autolock
+### 使用自动锁定
 
-In order to use the autolock, enter some PID parameters first. Note that the sign of the parameters is determined automatically. After clicking the green button, you can select the line you want to lock to by clicking and dragging over it: your selection should contain both extrema of the line. The autolock will then center this line, decrease the scan range and try to lock to the middle between minimum and maximum contained in your selection.
+使用自动锁定前，请先设置一些 PID 参数。注意，参数的符号会自动确定。点击绿色按钮后，通过点击并拖动来选择要锁定的谱线：您的选择应包含谱线的两个极值。自动锁定将使该谱线居中，缩小扫描范围，并尝试锁定到您选择区域内最小值和最大值之间的中点。
 
 ![image](https://raw.githubusercontent.com/linien-org/linien/master/docs/screencast.gif)
 
-The following options are available:
- * **Determine signal offset**: If this checkbox is ticked, the autolock will adapt the y-offset of the signal such that the middle between minimum and maximum is at the zero crossing. This is especially useful if you have a large background signal (e.g. the Doppler background in FMS spectroscopy).
- * **Check lock**: Directly after turning on the lock, the control signal is investigated. If it shifts too much, the lock is assumed to have failed.
- * **Watch lock**: This option tells the Linien to continuously watch the control signal when the laser is locked. If steep changes are detected, a relock is initiated.
+以下选项可用：
+ * **确定信号偏移**：如果勾选此复选框，自动锁定将调整信号的 Y 轴偏移，使最小值和最大值之间的中点位于零交叉处。这在存在较大背景信号时（例如 FMS 光谱中的多普勒背景）特别有用。
+ * **检查锁定**：开启锁定后立即检查控制信号。如果控制信号偏移过大，则认为锁定失败。
+ * **监控锁定**：此选项让 Linien 在激光锁定后持续监控控制信号。如果检测到剧烈变化，将发起重新锁定。
 
-If you experience trouble with the autolock, this is most likely due to a bad signal-to-noise ratio or strong laser jitter.
+如果您在使用自动锁定时遇到问题，最可能的原因是信噪比较差或激光抖动较强。
 
-#### Autolock algorithms
+#### 自动锁定算法
 
-Linien implements two different autolock algorithms:
+Linien 实现了两种不同的自动锁定算法：
 
- * **Robust mode**: this algorithm runs on FPGA and analyzes the peak shapes in order to turn on the lock at the right sweep position. It is able to cope with a high amount of jitter as it runs completely on the FPGA, i.e. no delays due to communication between CPU and FPGA occur.
- * **Simple mode**: this algorithm uses a simple calculation of auto-correlation on the CPU which is then used to specify at which point of the sweep the lock should start. This algorithm is less complex than the first one and may be used if you experience problems with jitter-tolerant mode. As it requires some communication between CPU and FPGA which causes some delay, it may have problems if the line jitters a lot.
+ * **鲁棒模式**：该算法运行在 FPGA 上，分析峰值形状以在正确的扫描位置开启锁定。它能够应对大量抖动，因为完全在 FPGA 上运行，即 CPU 和 FPGA 之间没有通信延迟。
+ * **简单模式**：该算法在 CPU 上使用简单的自相关计算来确定锁定应从扫描的哪个点开始。该算法比第一种简单，适用于在抖动容忍模式下遇到问题时使用。由于需要 CPU 和 FPGA 之间的一些通信（会产生延迟），如果谱线抖动较大，可能会出现问题。
 
- By default, **auto-detect mode** is used: this mode chooses an algorithm based on the amount of jitter.
+ 默认使用**自动检测模式**：该模式根据抖动量自动选择算法。
 
 
-### Using the manual lock
+### 使用手动锁定
 
-If you have problems with the autolock, you may also lock manually. Activate the *Manual* tab and use the controls in the top (*Zoom* and *Position*) to center the line you want to lock to. Choose whether the target slope is rising or falling and click the green button.
+如果您在使用自动锁定时遇到问题，也可以手动锁定。激活*手动*（Manual）选项卡，使用顶部的控制（*缩放*和*位置*）将目标谱线居中。选择目标斜率是上升还是下降，然后点击绿色按钮。
 
-### Logging
+### 日志记录
 
-Linien has to option to log the lock status and parameters to an InfluxDB. Currently, only InfluxDB 2.x is supported. Logging can be configured via the Logging menu in the Linien GUI, but logging will continue even if the client is closed. Time stamps of the data points are determined by the InfluxDB, not by the RedPitaya. If updating/checking the InfluxDB credentials fails, there is additional information in the tool-tip of the fail indicator ❌.
+Linien 可以选择将锁定状态和参数记录到 InfluxDB。目前仅支持 InfluxDB 2.x。日志记录可通过 Linien GUI 中的日志菜单进行配置，但即使客户端关闭，日志记录也会继续。数据点的时间戳由 InfluxDB 确定，而非 RedPitaya。如果更新/检查 InfluxDB 凭据失败，失败指示器 ❌ 的工具提示中有额外的信息。
 
-The parameter names are documented in [`parameters.py`](https://github.com/linien-org/linien/blob/master/linien-server/linien_server/parameters.py). The `signal_stats` parameter does contain statistics of the input and output signals, e.g. `control_signal_mean` or `monitor_signal_max`.
+参数名称记录在 [`parameters.py`](https://github.com/linien-org/linien/blob/master/linien-server/linien_server/parameters.py) 中。`signal_stats` 参数包含输入和输出信号的统计信息，例如 `control_signal_mean` 或 `monitor_signal_max`。
 
-Transfer function
------------------
+传递函数
+---------
 
-Transfer function of the PID is given by
+PID 的传递函数为
 ```
 L(f) = kp + ki / f + kd * f
 ```
-with `kp=P/4096`, `ki=I/0.1s` and `kd=D / (2**6 * 125e6)`.
-Note that this equation does not account for filtering before the PID (cf. *Modulation, Sweep & Spectroscopy* tab).
+其中 `kp=P/4096`，`ki=I/0.1s`，`kd=D / (2**6 * 125e6)`。
+注意，此方程未考虑 PID 之前的滤波（参见*调制、扫描与光谱*选项卡）。
 
 ![image](https://raw.githubusercontent.com/linien-org/linien/master/docs/transfer.png)
 
-Scripting interface
--------------------
+脚本接口
+--------
 
-In addition to the GUI, Linien can also be controlled using Python. For that purpose, installation via pip is required (see above).
+除了 GUI，Linien 还可以使用 Python 进行控制。为此，需要通过 pip 安装（见上文）。
 
-Then, you should start the Linien server on your RedPitaya. This can be done by running the GUI client and connecting to the device (see above). Alternatively, the `connect` method of `LinienClient` has the option `autostart_server`.
+然后，您需要在 RedPitaya 上启动 Linien 服务器。可以通过运行 GUI 客户端并连接到设备来完成（见上文）。另外，`LinienClient` 的 `connect` 方法提供了 `autostart_server` 选项。
 
-Once the server is up and running, you can connect using python:
+服务器启动运行后，您可以使用 Python 连接：
 ```python
 from linien_client.device import Device
 from linien_client.connection import LinienClient
@@ -246,41 +232,40 @@ dev = Device(
 c = LinienClient(dev)
 c.connect(autostart_server=True, use_parameter_cache=True)
 
-# read out the modulation frequency
+# 读取调制频率
 print(c.parameters.modulation_frequency.value / MHz)
 
-# have a look at https://github.com/linien-org/linien/blob/master/linien/server/parameters.py
-# for a documentation of all parameters that can be accessed and modified
+# 请查看 https://github.com/linien-org/linien/blob/master/linien/server/parameters.py
+# 了解所有可访问和修改的参数文档
 
-# set modulation amplitude
+# 设置调制幅度
 c.parameters.modulation_amplitude.value = 1 * Vpp
-# in the line above, we set a parameter. This is not written directly to the
-# FPGA, though. In order to do this, we have to call write_registers():
+# 在上面的代码行中，我们设置了一个参数。但它不会直接写入
+# FPGA。为此，我们需要调用 write_registers()：
 c.connection.root.write_registers()
 
-# additionally set ANALOG_OUT_1 to 1.2 volts DC (you can use this to control other devices of your experiment)
+# 额外将 ANALOG_OUT_1 设置为 1.2 伏直流（可用于控制实验中的其他设备）
 c.parameters.analog_out_1.value = 1.2 / ANALOG_OUT_V
 
-# GPIO outputs can also be set
-# each bit corresponds to a pin
-# Example: enable all N pins and disable all P pins
+# GPIO 输出也可以设置
+# 每个位对应一个引脚
+# 示例：启用所有 N 引脚并禁用所有 P 引脚
 c.parameters.gpio_n_out.value = 0b11111111
 c.parameters.gpio_p_out.value = 0b00000000
-# Example: enable the N pins 1-4 and disable N pins 5-8
-c.parameters.gpio_n_out.value = 0b11110000 # 4 on, 4 off
-# Example: enable every second P pin
-c.parameters.gpio_p_out.value = 0b01010101 # 4 on, 4 off
+# 示例：启用 N 引脚 1-4 并禁用 N 引脚 5-8
+c.parameters.gpio_n_out.value = 0b11110000 # 4 个开，4 个关
+# 示例：每隔一个启用 P 引脚
+c.parameters.gpio_p_out.value = 0b01010101 # 4 个开，4 个关
 
-# again, we have to call write_registers in order to write the data to the FPGA
+# 同样，我们需要调用 write_registers 以将数据写入 FPGA
 c.connection.root.write_registers()
 
-# it is also possible to set up a callback function that is called whenever a
-# parameter changes (remember to call `check_for_changed_parameters()` periodically)
+# 还可以设置一个回调函数，当参数发生变化时被调用
+# （记得定期调用 `check_for_changed_parameters()`）
 def callback(value):
-    # this function is called whenever `my_param` changes on the server.
-    # note that this only works if `check_for_changed_parameters` is called from
-    # time to time as this function is responsible for checking for
-    # changed parameters.
+    # 当服务器上的 `my_param` 发生变化时调用此函数。
+    # 注意，这仅在定期调用 `check_for_changed_parameters` 时有效，
+    # 因为该函数负责检查参数是否发生变化。
     print('parameter arrived!', value)
 
 c.parameters.modulation_amplitude.add_callback(callback)
@@ -292,16 +277,16 @@ for i in range(10):
         c.parameters.modulation_amplitude.value = 0.1 * Vpp
     sleep(.1)
 
-# plot control and error signal
+# 绘制控制信号和误差信号
 import pickle
 from matplotlib import pyplot as plt
 plot_data = pickle.loads(c.parameters.to_plot.value)
 
-# depending on the status (locked / unlocked), different signals are available
+# 根据状态（锁定/未锁定），可用的信号不同
 print(plot_data.keys())
 
-# if unlocked, signal1 and signal2 contain the error signal of channel 1 and 2
-# if the laser is locked, they contain error signal and control signal.
+# 如果未锁定，signal1 和 signal2 包含通道 1 和通道 2 的误差信号
+# 如果激光已锁定，它们包含误差信号和控制信号。
 if c.parameters.lock.value:
     plt.title('laser is locked!')
     plt.plot(plot_data['control_signal'], label='control signal')
@@ -315,13 +300,12 @@ plt.legend()
 plt.show()
 ```
 
-For a full list of parameters that can be controlled or accessed have a
-look at
-[parameters.py](https://github.com/linien-org/linien/blob/master/linien/server/parameters.py). Remember that changed parameters are not written to the FPGA unless `c.connection.root.write_registers()` is called.
+有关可控制或访问的参数完整列表，请查看
+[parameters.py](https://github.com/linien-org/linien/blob/master/linien/server/parameters.py)。请注意，更改的参数不会写入 FPGA，除非调用 `c.connection.root.write_registers()`。
 
-### Run the autolock
+### 运行自动锁定
 
-The script below shows an example of how to run the autolock using the scripting interface:
+下面的脚本展示了如何使用脚本接口运行自动锁定的示例：
 
 ```python
 import pickle
@@ -344,7 +328,7 @@ c.parameters.autolock_mode_preference.value = FAST_AUTOLOCK
 
 
 def wait_for_lock_status(should_be_locked):
-    """A helper function that waits until the laser is locked or unlocked."""
+    """等待激光锁定或解锁的辅助函数。"""
     counter = 0
     while True:
         to_plot = pickle.loads(c.parameters.to_plot.value)
@@ -360,18 +344,18 @@ def wait_for_lock_status(should_be_locked):
         sleep(1)
 
 
-# turn of the lock (if it is running)
+# 关闭锁定（如果正在运行）
 c.connection.root.start_sweep()
-# wait until the laser is unlocked (if required)
+# 等待激光解锁（如果需要）
 wait_for_lock_status(False)
 
 
-# we record a reference spectrum
+# 记录参考光谱
 to_plot = pickle.loads(c.parameters.to_plot.value)
 error_signal = to_plot["error_signal_1"]
 
 
-# we plot the reference spectrum and ask the user where the target line is
+# 绘制参考光谱并询问用户目标谱线的位置
 plt.plot(error_signal)
 plt.plot(to_plot["monitor_signal"])
 plt.show()
@@ -381,18 +365,18 @@ x0 = int(input("enter index of a point that is on the left side of the target li
 x1 = int(input("enter index of a point that is on the right side of the target line: "))
 
 
-# show the lock point again
+# 再次显示锁定点
 plt.axvline(x0, color="r")
 plt.axvline(x1, color="r")
 plt.plot(error_signal)
 plt.show()
 
 
-# turn on the lock
+# 开启锁定
 c.connection.root.start_autolock(x0, x1, pickle.dumps(error_signal))
 
 
-# wait until the laser is actually locked
+# 等待激光实际锁定
 try:
     wait_for_lock_status(True)
     print("locking the laser worked \o/")
@@ -402,77 +386,71 @@ except Exception:
 
 ```
 
-Updating Linien
----------------
-
-Before installing a new version of Linien, open the previously installed client and click the "Shutdown server" button. Don't worry, your settings and parameters will be saved. Then you may install the latest client on your local PC as described in the [getting started](#getting-started-install-linien) section above. The next time you connect to RedPitaya, Linien will install the matching server version.
-
-
-Development
+更新 Linien
 -----------
 
-Information about development can be found in the [wiki](https://github.com/linien-org/linien/wiki/Development).
+安装新版本的 Linien 之前，请打开之前安装的客户端并点击"关闭服务器"（Shutdown server）按钮。不用担心，您的设置和参数会被保存。然后按照上文[快速入门](#快速入门安装-linien)部分所述在本地 PC 上安装最新版客户端。下次连接到 RedPitaya 时，Linien 将安装匹配的服务器版本。
 
-FAQs
+
+开发
 ----
 
-### How to update to a new version?
+有关开发的信息，请参阅 [wiki](https://github.com/linien-org/linien/wiki/Development)。
 
-There's no need to install anything on RedPitaya manually.
-Run the new version of Linien on your computer and connect to RedPitaya. You will see a dialog that allows you to install the corresponding server component.
+常见问题
+--------
 
-### Can I run Linien and the RedPitaya web application / scpi interface at the same time?
+### 如何更新到新版本？
 
-No, this is not possible as Linien relies on a customized FPGA bitstream.
+无需在 RedPitaya 上手动安装任何东西。
+在您的电脑上运行新版本的 Linien 并连接到 RedPitaya。您将看到一个对话框，允许您安装相应的服务器组件。
 
-### What control bandwidth is achievable with Linien?
+### 我可以同时运行 Linien 和 RedPitaya 的 Web 应用/SCPI 接口吗？
 
-The propagation delay is roughly 320 ns in normal mode and 125 ns in PID-only mode.
+不可以，因为 Linien 依赖于定制的 FPGA 比特流。
 
-### Why do ethernet LEDs of RedPitaya stop blinking when Linien is running?
+### Linien 可以实现多大的控制带宽？
 
-Ethernet LED blinking [was found to impact analog outputs of RedPitaya](https://github.com/RedPitaya/RedPitaya/issues/205). As this may impact lock stability, Linien disables ethernet LED blinking when starting.
+传播延迟在普通模式下约为 320 ns，在纯 PID 模式下约为 125 ns。
 
-If you want to re-enable the LEDs, just stop the Linien server or restart your RedPitaya.
+### 为什么 Linien 运行时 RedPitaya 的以太网 LED 停止闪烁？
 
-Troubleshooting
----------------
+以太网 LED 闪烁[被发现会影响 RedPitaya 的模拟输出](https://github.com/RedPitaya/RedPitaya/issues/205)。由于这可能影响锁定稳定性，Linien 启动时会禁用以太网 LED 闪烁。
 
-### Connection problems
+如果您想重新启用 LED，只需停止 Linien 服务器或重启 RedPitaya 即可。
 
-If the client fails to connect to a RedPitaya, first check whether you can ping it by
-executing
+故障排除
+--------
+
+### 连接问题
+
+如果客户端无法连接到 RedPitaya，首先检查是否可以 ping 通它，运行
 
 ```bash
 ping rp-f0xxxx.local
 ```
 
-in a command line. If this works, check whether you can connect via SSH:
+在命令行中运行。如果成功，检查是否可以通过 SSH 连接：
 
 ```bash
 ssh rp-f0xxxx.local
 ```
 
-on the command line. If this is successful, in order to check whether the
-`linien-server` is running, check that the systemd service is running.  This can be done
-by executing `linien-server status`. Errors will also be displayed. Please provide the
-output if you are reporting an [issue](https://github.com/linien-org/linien/issues)
-related to connection problems. Debugging info will also be stored in `/root/.local/share/linien/linien.log`.
+在命令行中运行。如果成功，要检查 `linien-server` 是否正在运行，请检查 systemd 服务是否在运行。可以通过执行 `linien-server status` 来完成。错误信息也会显示出来。如果您要报告与连接问题相关的[issue](https://github.com/linien-org/linien/issues)，请提供此输出。调试信息也会存储在 `/root/.local/share/linien/linien.log` 中。
 
-### Possible conflict with openSSH
+### 可能与 openSSH 冲突
 
-Note that there might be issues if openSSH server is running on the client, see
-[here](https://github.com/orgs/linien-org/discussions/286).
+请注意，如果客户端运行了 openSSH 服务器，可能会出现问题，参见[此处](https://github.com/orgs/linien-org/discussions/286)。
 
-### Updating or installing fails
+### 更新或安装失败
 
-- make sure that your RedPitaya is connected to the internet
-- if the orange LED stops blinking and RedPitaya becomes unresponsive, your SD card is probably faulty
+- 确保 RedPitaya 已连接到互联网
+- 如果橙色 LED 停止闪烁且 RedPitaya 变得无响应，可能是 SD 卡出现了故障
 
-Citation
+引用
 ----
 
-If you are using Linien for your scientific work, please cite us as follows:
+如果您在科学工作中使用了 Linien，请按以下方式引用我们：
 
 ```
 @article{Wiegand2022,
@@ -489,9 +467,9 @@ If you are using Linien for your scientific work, please cite us as follows:
 }
 ```
 
-License
+许可证
 -------
-Linien ‒ User-friendly locking of lasers using RedPitaya (STEMlab 125-14) that just works.
+Linien ‒ 使用 RedPitaya (STEMlab 125-14) 进行激光锁定的用户友好工具，开箱即用。
 
 Copyright © 2014-2015 Robert Jördens\
 Copyright © 2018-2022 Benjamin Wiegand\
@@ -500,23 +478,20 @@ Copyright © 2022 Christian Freier\
 Copyright © 2023-2024 Doron Behar\
 
 
-Linien is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Linien 是自由软件：您可以根据自由软件基金会发布的 GNU 通用公共许可证的条款重新分发和/或修改它，许可证版本为第 3 版或（根据您的选择）任何更新版本。
 
-Linien is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+Linien 的分发是希望它能够有用，但不提供任何保证；甚至没有适销性或特定用途适用性的暗示保证。有关更多详情，请参见 GNU 通用公共许可证。
 
-You should have received a copy of the GNU General Public License along with Linien. If not, see <https://www.gnu.org/licenses/>.
+您应该已经随 Linien 收到了 GNU 通用公共许可证的副本。如果没有，请参见 <https://www.gnu.org/licenses/>。
 
-Acknowledgements
-----------------
+致谢
+----
 
-Development mainly takes place at Humboldt University of Berlin.
+开发主要在柏林洪堡大学进行。
 
-This work is supported by the German Space Agency
-(DLR) with funds provided by the Federal Ministry of
-Economics and Technology (BMWi) under grant number
-DLR50WM2066.
+本工作由德国航天局（DLR）提供支持，资金由德国联邦经济和技术部（BMWi）在资助编号 DLR50WM2066 下提供。
 
-See Also
+另请参阅
 --------
 
--   [RedPID](https://github.com/quartiq/redpid): the basis of Linien
+-   [RedPID](https://github.com/quartiq/redpid)：Linien 的基础
