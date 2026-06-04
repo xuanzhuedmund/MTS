@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_ROOT="/root/linien"
+PROJECT_ROOT="/root/MTS"
 export PYTHONPATH="${PROJECT_ROOT}/linien-common:${PROJECT_ROOT}/linien-server"
 
 echo "PYTHONPATH: $PYTHONPATH"

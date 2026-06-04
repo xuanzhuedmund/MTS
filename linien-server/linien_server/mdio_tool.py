@@ -31,7 +31,10 @@ def enable_ethernet_blinking() -> None:
     """
     binary_path = Path(__file__).parent / "mdio-tool"
     logger.info(f"Enabling ethernet blinking with mdio-tool at {binary_path}")
-    subprocess.run([f"{binary_path}", "w", "eth0", "0x1b", "0x0f00"])
+    try:
+        subprocess.run([f"{binary_path}", "w", "eth0", "0x1b", "0x0f00"], check=True)
+    except (FileNotFoundError, subprocess.CalledProcessError, PermissionError) as e:
+        logger.warning(f"Failed to enable ethernet blinking: {e}. This is not critical, continuing...")
 
 
 def disable_ethernet_blinking() -> None:
@@ -42,4 +45,7 @@ def disable_ethernet_blinking() -> None:
     """
     binary_path = Path(__file__).parent / "mdio-tool"
     logger.info(f"Disabling ethernet blinking with mdio-tool at {binary_path}")
-    subprocess.run([f"{binary_path}", "w", "eth0", "0x1b", "0x0000"])
+    try:
+        subprocess.run([f"{binary_path}", "w", "eth0", "0x1b", "0x0000"], check=True)
+    except (FileNotFoundError, subprocess.CalledProcessError, PermissionError) as e:
+        logger.warning(f"Failed to disable ethernet blinking: {e}. This is not critical, continuing...")
