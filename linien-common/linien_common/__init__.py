@@ -5,8 +5,8 @@ import importlib_metadata
 
 from .config import LOG_FILE_PATH
 
-__version__ = importlib_metadata.version("linien-common")  # noqa: F401
-
+# __version__ = importlib_metadata.version("linien-common")  # noqa: F401
+__version__ = "2.1.0"
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 

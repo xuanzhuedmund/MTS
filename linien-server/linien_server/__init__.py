@@ -21,7 +21,8 @@ from logging.handlers import RotatingFileHandler
 import importlib_metadata
 from linien_common.config import LOG_FILE_PATH
 
-__version__ = importlib_metadata.version("linien-server")  # noqa: F401
+# __version__ = importlib_metadata.version("linien-server")  # noqa: F401
+__version__ = "2.1.0"
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
