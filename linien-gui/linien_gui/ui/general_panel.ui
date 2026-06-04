@@ -17,13 +17,13 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>PID-only mode</string>
+      <string>仅PID模式</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This mode  is intended for bare PID operation (no demodulation, filtering or offset), increasing the control bandwidth. If enabled, the signal flow is FAST IN 1 → PID → FAST OUT 2&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;此模式用于纯PID操作（无解调、滤波或偏移），可增加控制带宽。启用后，信号流向为FAST IN 1 → PID → FAST OUT 2&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -33,7 +33,7 @@
       <item>
        <widget class="QCheckBox" name="pidOnlyModeCheckBox">
         <property name="text">
-         <string>enable PID-only mode</string>
+         <string>启用仅PID模式</string>
         </property>
        </widget>
       </item>
@@ -43,7 +43,7 @@
    <item>
     <widget class="QGroupBox" name="output_ports_group">
      <property name="title">
-      <string>Configuration of output ports</string>
+      <string>输出端口配置</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_25">
       <item>
@@ -63,7 +63,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Fast control</string>
+           <string>快速控制</string>
           </property>
          </widget>
         </item>
@@ -106,7 +106,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Sweep signal</string>
+           <string>扫描信号</string>
           </property>
          </widget>
         </item>
@@ -148,7 +148,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Modulation frequency</string>
+           <string>调制频率</string>
           </property>
          </widget>
         </item>
@@ -191,7 +191,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Slow control</string>
+           <string>慢速控制</string>
           </property>
          </widget>
         </item>
@@ -220,7 +220,7 @@
           </item>
           <item>
            <property name="text">
-            <string>disabled</string>
+            <string>禁用</string>
            </property>
           </item>
          </widget>
@@ -233,8 +233,8 @@
          <string notr="true">background: #ffe7b5</string>
         </property>
         <property name="title">
-         <string>Polarity of outputs</string>
-        </property>
+            <string>输出极性</string>
+           </property>
         <layout class="QVBoxLayout" name="verticalLayout_9">
          <item>
           <widget class="QLabel" name="label_8">
@@ -251,8 +251,8 @@
             </size>
            </property>
            <property name="text">
-            <string>Please select the polarity of each of these outputs (i.e. what happens to the frequency if a positive voltage is applied)</string>
-           </property>
+           <string>请选择每个输出的极性（即施加正电压时频率的变化方向）</string>
+          </property>
            <property name="wordWrap">
             <bool>true</bool>
            </property>
@@ -299,13 +299,13 @@
               </property>
               <item>
                <property name="text">
-                <string>positive</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>negative</string>
-               </property>
+               <string>正</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>负</string>
+              </property>
               </item>
              </widget>
             </item>
@@ -350,13 +350,13 @@
               </property>
               <item>
                <property name="text">
-                <string>positive</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>negative</string>
-               </property>
+               <string>正</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>负</string>
+              </property>
               </item>
              </widget>
             </item>
@@ -401,13 +401,13 @@
               </property>
               <item>
                <property name="text">
-                <string>positive</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>negative</string>
-               </property>
+               <string>正</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>负</string>
+              </property>
               </item>
              </widget>
             </item>
@@ -441,7 +441,7 @@
    <item>
     <widget class="QGroupBox" name="input_ports_group">
      <property name="title">
-      <string>Configuration of input ports</string>
+      <string>输入端口配置</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_13">
       <item>
@@ -459,7 +459,7 @@
         <item>
          <widget class="QLabel" name="fast_in_1_status">
           <property name="text">
-           <string>error signal / error signal 1</string>
+           <string>误差信号 / 误差信号1</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -480,7 +480,7 @@
         <item>
          <widget class="QLabel" name="fast_in_2_status">
           <property name="text">
-           <string>monitor / error signal 2</string>
+           <string>监测 / 误差信号2</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -498,7 +498,7 @@
          <item>
           <widget class="QLabel" name="label_25">
            <property name="text">
-            <string>By default, FAST IN 2 is used as a monitor for the DC spectroscopy signal. It may also be used as source of a second error signal which (after demodulation) is added to the first error signal. This is useful for implementing combined FMS+MTS.</string>
+            <string>默认情况下，FAST IN 2用作直流光谱信号的监测。它也可以用作第二个误差信号源（解调后），与第一个误差信号相加。这对于实现FMS+MTS组合非常有用。</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -508,14 +508,14 @@
          <item>
           <widget class="QCheckBox" name="dualChannelCheckBox">
            <property name="text">
-            <string>use as second error signal</string>
-           </property>
+           <string>用作第二误差信号</string>
+          </property>
           </widget>
          </item>
          <item>
           <widget class="QGroupBox" name="dualChannelMixingGroupBox">
            <property name="title">
-            <string>Mixing of channel 1 and 2</string>
+            <string>通道1和通道2混合</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
@@ -617,13 +617,13 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Slow Analog Outputs (0-1.8V)</string>
+      <string>慢速模拟输出 (0-1.8V)</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QLabel" name="label_20">
         <property name="text">
-         <string>As analog outputs use pwm / delta sigma modulation, analog low pass filtering of the output is required.</string>
+         <string>由于模拟输出使用PWM/Delta Sigma调制，需要对输出进行模拟低通滤波。</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -654,8 +654,8 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>swep signal or additional integrator</string>
-          </property>
+         <string>扫描信号或附加积分器</string>
+        </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>

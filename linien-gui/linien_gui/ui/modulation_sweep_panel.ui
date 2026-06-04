@@ -20,7 +20,7 @@
    <item>
     <widget class="QGroupBox" name="modulation_frequency_group">
      <property name="title">
-      <string>Modulation frequency</string>
+      <string>调制频率</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
@@ -44,7 +44,7 @@
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Set modulation frequency to 0 to disable modulation/demodulation</string>
+         <string>将调制频率设置为0以禁用调制/解调</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -57,7 +57,7 @@
    <item>
     <widget class="QGroupBox" name="modulation_amplitude_group">
      <property name="title">
-      <string>Modulation amplitude</string>
+      <string>调制幅度</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -90,7 +90,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string>Sweep speed</string>
+      <string>扫描速度</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
@@ -200,13 +200,13 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>Sweep amplitude and offset</string>
+      <string>扫描幅度和偏移</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use the controls &lt;span style=&quot; font-style:italic;&quot;&gt;Sweep amplitude&lt;/span&gt; and &lt;span style=&quot; font-style:italic;&quot;&gt;Position &lt;/span&gt;above the plot widget&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;使用图表上方的&lt;span style=&quot; font-style:italic;&quot;&gt;扫描幅度&lt;/span&gt;和&lt;span style=&quot; font-style:italic;&quot;&gt;位置&lt;/span&gt;控件&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="textFormat">
          <enum>Qt::RichText</enum>
@@ -232,7 +232,7 @@
      </property>
      <widget class="QWidget" name="spectroscopy_channel_1_page">
       <attribute name="title">
-       <string>Channel 1</string>
+       <string>通道1</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_20">
        <item>
@@ -249,14 +249,14 @@
      </widget>
      <widget class="QWidget" name="spectroscopy_channel_2_page">
       <attribute name="title">
-       <string>Channel 2</string>
+       <string>通道2</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_19">
        <item>
         <widget class="QLabel" name="spectroscopyBPanelDisabled">
          <property name="text">
-          <string>Enable dual channel spectroscopy in &quot;General&quot; tab in order to use the second channel.</string>
-         </property>
+         <string>请在"常规"选项卡中启用双通道光谱以使用第二个通道。</string>
+        </property>
          <property name="alignment">
           <set>Qt::AlignJustify|Qt::AlignTop</set>
          </property>

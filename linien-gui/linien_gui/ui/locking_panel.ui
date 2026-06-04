@@ -29,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="title">
-      <string>P,I and D  of fast control</string>
+      <string>快速控制的P、I和D参数</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
@@ -290,7 +290,7 @@
       </sizepolicy>
      </property>
      <property name="title">
-      <string>Strength of slow control</string>
+      <string>慢速控制强度</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
@@ -302,7 +302,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Slow drift compensation (for example via piezo of an ECDL). Rather large values are necessary for stable operation.</string>
+         <string>慢漂移补偿（例如通过ECDL的压电元件）。稳定运行需要较大的值。</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -339,8 +339,8 @@
             </font>
            </property>
            <property name="text">
-            <string>strength</string>
-           </property>
+           <string>强度</string>
+          </property>
           </widget>
          </item>
          <item>
@@ -388,7 +388,7 @@
      </property>
      <widget class="QWidget" name="auto_mode">
       <attribute name="title">
-       <string>Auto</string>
+       <string>自动</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_10">
        <item>
@@ -424,31 +424,31 @@
              <string notr="true">background: #00aa00</string>
             </property>
             <property name="text">
-             <string>Select target line</string>
+             <string>选择目标谱线</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QGroupBox" name="groupBox">
             <property name="title">
-             <string>Autolock algorithm</string>
-            </property>
+            <string>自动锁相算法</string>
+           </property>
             <layout class="QVBoxLayout" name="verticalLayout_8">
              <item>
               <widget class="QComboBox" name="autolock_mode_preference">
                <item>
                 <property name="text">
-                 <string>Auto-detect</string>
+                 <string>自动检测</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>Robust mode</string>
+                 <string>稳健模式</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>Simple mode</string>
+                 <string>简单模式</string>
                 </property>
                </item>
               </widget>
@@ -459,7 +459,7 @@
           <item>
            <widget class="QCheckBox" name="autoOffsetCheckbox">
             <property name="text">
-             <string>Determine signal offset</string>
+             <string>确定信号偏移</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -481,7 +481,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Adapt offset such that lock is in the middle between minimum and maximum. Note: this setting may reduce reproducibility of absolute frequency</string>
+             <string>调整偏移使锁相点位于最小值和最大值之间。注意：此设置可能会降低绝对频率的重现性</string>
             </property>
             <property name="textFormat">
              <enum>Qt::PlainText</enum>
@@ -531,7 +531,7 @@
           <item>
            <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Click and drag over the line you want to lock to&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;点击并拖动选择要锁定的谱线&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="scaledContents">
              <bool>false</bool>
@@ -550,7 +550,7 @@
              <string notr="true">background-color: #d40000;</string>
             </property>
             <property name="text">
-             <string>Abort</string>
+             <string>取消</string>
             </property>
            </widget>
           </item>
@@ -561,7 +561,7 @@
      </widget>
      <widget class="QWidget" name="manual_mode">
       <attribute name="title">
-       <string>Manual</string>
+       <string>手动</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_12">
        <item>
@@ -586,7 +586,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Center the line and zoom in before pressing the button.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;在按下按钮前，请将谱线居中并放大。&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="scaledContents">
           <bool>false</bool>
@@ -615,14 +615,14 @@
        <item>
         <widget class="QRadioButton" name="button_slope_rising">
          <property name="text">
-          <string>Rising slope</string>
+          <string>上升沿</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QRadioButton" name="button_slope_falling">
          <property name="text">
-          <string>Falling slope</string>
+          <string>下降沿</string>
          </property>
         </widget>
        </item>
@@ -657,8 +657,8 @@
           <string notr="true">background: #00aa00</string>
          </property>
          <property name="text">
-          <string>Lock!</string>
-         </property>
+             <string>锁定！</string>
+            </property>
         </widget>
        </item>
       </layout>
@@ -684,7 +684,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Lock status</string>
+         <string>锁相状态</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -1115,7 +1115,7 @@
          <string notr="true">background-color: #d40000;</string>
         </property>
         <property name="text">
-         <string>Stop lock</string>
+         <string>停止锁相</string>
         </property>
        </widget>
       </item>
@@ -1128,7 +1128,7 @@
          </sizepolicy>
         </property>
         <property name="title">
-         <string>Control signal history length</string>
+         <string>控制信号历史长度</string>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
@@ -1179,7 +1179,7 @@
       <item>
        <widget class="QLabel" name="label_17">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#a40000;&quot;&gt;Autolock failed!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#a40000;&quot;&gt;自动锁相失败！&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="textFormat">
          <enum>Qt::RichText</enum>
@@ -1210,8 +1210,8 @@
          <string notr="true">background-color: #00a400;</string>
         </property>
         <property name="text">
-         <string>Try again</string>
-        </property>
+             <string>重试</string>
+            </property>
        </widget>
       </item>
       <item>

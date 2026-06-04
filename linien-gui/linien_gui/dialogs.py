@@ -51,7 +51,7 @@ class SSHCommandOutputWidget(QListWidget):
         self.scrollToBottom()
 
     def on_thread_finished(self):
-        self.addItem("\nFinished.")
+        self.addItem("\n完成。")
         self.scrollToBottom()
         self.command_finished.emit()
 
@@ -60,11 +60,11 @@ def show_installation_progress_widget(
     parent: QWidget, device: Device, callback: Callable
 ):
     window = QDialog(parent)
-    window.setWindowTitle("Deploying Linien Server")
+    window.setWindowTitle("部署Linien服务器")
     window.resize(800, 600)
     window_layout = QVBoxLayout(window)
     widget = SSHCommandOutputWidget(parent)
-    button = QPushButton("Continue")
+    button = QPushButton("继续")
     button.setEnabled(False)
     window_layout.addWidget(widget)
     window_layout.addWidget(button)
@@ -90,8 +90,8 @@ class LoadingDialog(QMessageBox):
         super(LoadingDialog, self).__init__(parent)
 
         self.setIcon(QMessageBox.Information)
-        self.setText(f"Connecting to {host}")
-        self.setWindowTitle("Connecting")
+        self.setText(f"正在连接到 {host}")
+        self.setWindowTitle("连接中")
         self.setModal(True)
         self.setWindowModality(QtCore.Qt.WindowModal)
         self.setStandardButtons(QMessageBox.NoButton)
@@ -107,7 +107,7 @@ class LoadingDialog(QMessageBox):
 
 
 def error_dialog(parent: QWidget, error):
-    return QMessageBox.question(parent, "Error", error, QMessageBox.Ok, QMessageBox.Ok)
+    return QMessageBox.question(parent, "错误", error, QMessageBox.Ok, QMessageBox.Ok)
 
 
 def question_dialog(parent, question: str, title: str) -> bool:
@@ -125,8 +125,8 @@ def ask_for_parameter_restore_dialog(parent, question: str, title: str) -> bool:
     box = QMessageBox(parent)
     box.setText(question)
     box.setWindowTitle(title)
-    _ = box.addButton("Keep remote parameters", QMessageBox.NoRole)  # do nothing
-    upload_button = box.addButton("Upload local parameters", QMessageBox.YesRole)
+    _ = box.addButton("保留远程参数", QMessageBox.NoRole)  # do nothing
+    upload_button = box.addButton("上传本地参数", QMessageBox.YesRole)
 
     box.exec_()
 

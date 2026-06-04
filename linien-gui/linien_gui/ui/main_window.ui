@@ -44,7 +44,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Sweep:</string>
+               <string>扫描:</string>
               </property>
              </widget>
             </item>
@@ -58,7 +58,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Start and pause the output of the sweep at the sweep center position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>Start / Pause</string>
+               <string>开始/暂停</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -116,7 +116,7 @@ p, li { white-space: pre-wrap; }
                </font>
               </property>
               <property name="text">
-               <string>Center:</string>
+               <string>中心:</string>
               </property>
              </widget>
             </item>
@@ -167,7 +167,7 @@ p, li { white-space: pre-wrap; }
                </font>
               </property>
               <property name="text">
-               <string>Amplitude:</string>
+               <string>振幅:</string>
               </property>
              </widget>
             </item>
@@ -247,7 +247,7 @@ p, li { white-space: pre-wrap; }
                </font>
               </property>
               <property name="text">
-               <string>Error std: </string>
+               <string>误差标准差: </string>
               </property>
              </widget>
             </item>
@@ -283,7 +283,7 @@ p, li { white-space: pre-wrap; }
                </font>
               </property>
               <property name="text">
-               <string>Control std: </string>
+               <string>控制标准差: </string>
               </property>
              </widget>
             </item>
@@ -313,7 +313,7 @@ p, li { white-space: pre-wrap; }
             <item>
              <widget class="QLabel" name="errorSignalLegendLabel">
               <property name="text">
-               <string>error</string>
+               <string>误差</string>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
@@ -323,7 +323,7 @@ p, li { white-space: pre-wrap; }
             <item>
              <widget class="QLabel" name="controlSignalLegendLabel">
               <property name="text">
-               <string>control</string>
+               <string>控制</string>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
@@ -333,7 +333,7 @@ p, li { white-space: pre-wrap; }
             <item>
              <widget class="QLabel" name="controlSignalHistoryLegendLabel">
               <property name="text">
-               <string>control history</string>
+               <string>控制历史</string>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
@@ -343,14 +343,14 @@ p, li { white-space: pre-wrap; }
             <item>
              <widget class="QLabel" name="slowSignalHistoryLegendLabel">
               <property name="text">
-               <string>slow out history</string>
+               <string>慢输出历史</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="monitorSignalHistoryLegendLabel">
               <property name="text">
-               <string>monitor signal</string>
+               <string>监测信号</string>
               </property>
              </widget>
             </item>
@@ -371,7 +371,7 @@ p, li { white-space: pre-wrap; }
                  </font>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel 1:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;通道 1:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>
@@ -426,7 +426,7 @@ p, li { white-space: pre-wrap; }
                  </font>
                 </property>
                 <property name="text">
-                 <string>Channel2:</string>
+                 <string>通道2:</string>
                 </property>
                </widget>
               </item>
@@ -473,8 +473,8 @@ p, li { white-space: pre-wrap; }
               <item>
                <widget class="QLabel" name="error1LegendLabel">
                 <property name="text">
-                 <string>error 1</string>
-                </property>
+               <string>误差 1</string>
+              </property>
                 <property name="wordWrap">
                  <bool>false</bool>
                 </property>
@@ -483,8 +483,8 @@ p, li { white-space: pre-wrap; }
               <item>
                <widget class="QLabel" name="error2LegendLabel">
                 <property name="text">
-                 <string>error 2</string>
-                </property>
+               <string>误差 2</string>
+              </property>
                 <property name="wordWrap">
                  <bool>false</bool>
                 </property>
@@ -493,15 +493,15 @@ p, li { white-space: pre-wrap; }
               <item>
                <widget class="QLabel" name="monitorLegendLabel">
                 <property name="text">
-                 <string>monitor</string>
-                </property>
+               <string>监测</string>
+              </property>
                </widget>
               </item>
               <item>
                <widget class="QLabel" name="combinedErrorLegendLabel">
                 <property name="text">
-                 <string>combined</string>
-                </property>
+               <string>组合误差</string>
+              </property>
                 <property name="wordWrap">
                  <bool>true</bool>
                 </property>
@@ -563,7 +563,7 @@ p, li { white-space: pre-wrap; }
           <item>
            <widget class="QPushButton" name="openDeviceManagerButton">
             <property name="text">
-             <string>Devices</string>
+             <string>设备</string>
             </property>
            </widget>
           </item>
@@ -573,7 +573,7 @@ p, li { white-space: pre-wrap; }
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>Close client</string>
+             <string>关闭客户端</string>
             </property>
            </widget>
           </item>
@@ -585,15 +585,15 @@ p, li { white-space: pre-wrap; }
          <item>
           <widget class="QPushButton" name="exportParametersButton">
            <property name="text">
-            <string>Export settings</string>
-           </property>
+             <string>导出设置</string>
+            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="importParametersButton">
            <property name="text">
-            <string>Import settings</string>
-           </property>
+             <string>导入设置</string>
+            </property>
           </widget>
          </item>
         </layout>
@@ -601,7 +601,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QPushButton" name="PIDParameterOptimizationButton">
          <property name="text">
-          <string>Noise analysis</string>
+          <string>噪声分析</string>
          </property>
         </widget>
        </item>
@@ -1029,7 +1029,7 @@ p, li { white-space: pre-wrap; }
           <string notr="true">background-color: #d40000;</string>
          </property>
          <property name="text">
-          <string>Shutdown server</string>
+          <string>关闭服务器</string>
          </property>
         </widget>
        </item>
@@ -1066,7 +1066,7 @@ p, li { white-space: pre-wrap; }
            </rect>
           </property>
           <attribute name="label">
-           <string>General</string>
+           <string>常规</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_15">
            <item>
@@ -1084,7 +1084,7 @@ p, li { white-space: pre-wrap; }
            </rect>
           </property>
           <attribute name="label">
-           <string>Modulation, Sweep &amp;&amp; Spectroscopy</string>
+           <string>调制、扫描与光谱</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
@@ -1102,7 +1102,7 @@ p, li { white-space: pre-wrap; }
            </rect>
           </property>
           <attribute name="label">
-           <string>Optimization</string>
+           <string>优化</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_10">
            <item>
@@ -1120,7 +1120,7 @@ p, li { white-space: pre-wrap; }
            </rect>
           </property>
           <attribute name="label">
-           <string>Logging</string>
+           <string>日志记录</string>
           </attribute>
           <widget class="LoggingPanel" name="widget_7" native="true">
            <property name="geometry">
@@ -1149,7 +1149,7 @@ p, li { white-space: pre-wrap; }
            </sizepolicy>
           </property>
           <attribute name="label">
-           <string>View</string>
+           <string>视图</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_16">
            <item>
@@ -1173,7 +1173,7 @@ p, li { white-space: pre-wrap; }
            </sizepolicy>
           </property>
           <attribute name="label">
-           <string>Locking</string>
+           <string>锁相</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <item>

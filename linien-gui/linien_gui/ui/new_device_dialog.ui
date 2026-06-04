@@ -28,7 +28,7 @@
            </sizepolicy>
           </property>
           <property name="title">
-           <string>Name the device (optional)</string>
+           <string>设备名称（可选）</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
@@ -46,7 +46,7 @@
            </sizepolicy>
           </property>
           <property name="title">
-           <string>Hostname / IP Address</string>
+           <string>主机名/IP地址</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
@@ -59,7 +59,7 @@
            <item>
             <widget class="QLabel" name="explainHostLabel">
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;xxxxxx&lt;/span&gt; are the last 6 characters from MAC address of your RedPitaya. The MAC address is written on the Ethernet connector.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note:&lt;/span&gt; If connections fails using host name, try using ip address of RedPitaya instead.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;xxxxxx&lt;/span&gt; 是您RedPitaya的MAC地址的后6个字符。MAC地址标注在以太网连接器上。&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;注意：&lt;/span&gt;如果使用主机名连接失败，请尝试使用RedPitaya的IP地址。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignJustify|Qt::AlignVCenter</set>
@@ -81,13 +81,13 @@
            </sizepolicy>
           </property>
           <property name="title">
-           <string>Credentials</string>
+           <string>凭据</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <item>
             <widget class="QLabel" name="label">
              <property name="text">
-              <string>Please enter the credentials used for SSH access. If you don't know them, &quot;root&quot; for both of them is probably correct.</string>
+              <string>请输入用于SSH访问的凭据。如果不知道，两者都使用"root"可能是正确的。</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignJustify|Qt::AlignVCenter</set>
@@ -106,7 +106,7 @@
               </sizepolicy>
              </property>
              <property name="title">
-              <string>Username</string>
+              <string>用户名</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
@@ -122,7 +122,7 @@
            <item>
             <widget class="QGroupBox" name="groupBox_3">
              <property name="title">
-              <string>Password</string>
+              <string>密码</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_4">
               <item>
@@ -153,13 +153,13 @@
            </sizepolicy>
           </property>
           <property name="title">
-           <string>Port</string>
+           <string>端口</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
             <widget class="QLabel" name="label_2">
              <property name="text">
-              <string>Which port should the Linien server use? Default port is 18862.</string>
+              <string>Linien服务器应使用哪个端口？默认端口是18862。</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>

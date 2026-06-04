@@ -35,7 +35,7 @@
          <item>
           <widget class="QLabel" name="label_19">
            <property name="text">
-            <string>Use machine learning to maximize the steepness of a slope.</string>
+            <string>使用机器学习最大化斜率的陡峭度。</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -45,13 +45,13 @@
          <item>
           <widget class="QGroupBox" name="groupBox_14">
            <property name="title">
-            <string>Modulation frequency (MHz)</string>
+            <string>调制频率 (MHz)</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_29">
             <item>
              <widget class="QCheckBox" name="optimization_mod_freq">
               <property name="text">
-               <string>Should be optimized</string>
+               <string>需要优化</string>
               </property>
              </widget>
             </item>
@@ -97,13 +97,13 @@
          <item>
           <widget class="QGroupBox" name="groupBox_15">
            <property name="title">
-            <string>Modulation amplitude (Vpp)</string>
+            <string>调制幅度 (Vpp)</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_30">
             <item>
              <widget class="QCheckBox" name="optimization_mod_amp">
               <property name="text">
-               <string>Should be optimized</string>
+               <string>需要优化</string>
               </property>
              </widget>
             </item>
@@ -150,7 +150,7 @@
          <item>
           <widget class="QGroupBox" name="groupBox_17">
            <property name="title">
-            <string>Demodulation phase</string>
+            <string>解调相位</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_27">
             <item>
@@ -159,7 +159,7 @@
                <bool>false</bool>
               </property>
               <property name="text">
-               <string>Should be optimized</string>
+               <string>需要优化</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -169,8 +169,8 @@
             <item>
              <widget class="QLabel" name="label_25">
               <property name="text">
-               <string>0 - 360 deg</string>
-              </property>
+              <string>0 - 360 度</string>
+             </property>
               <property name="indent">
                <number>30</number>
               </property>
@@ -182,14 +182,14 @@
          <item>
           <widget class="QGroupBox" name="optimization_channel_selector_box">
            <property name="title">
-            <string>Channel</string>
+            <string>通道</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_26">
             <item>
              <widget class="QLabel" name="label_23">
               <property name="text">
-               <string>Which channel should be optimized?</string>
-              </property>
+              <string>应该优化哪个通道？</string>
+             </property>
               <property name="wordWrap">
                <bool>true</bool>
               </property>
@@ -205,12 +205,12 @@
               </property>
               <item>
                <property name="text">
-                <string>Channel 1</string>
+                <string>通道 1</string>
                </property>
               </item>
               <item>
                <property name="text">
-                <string>Channel 2</string>
+                <string>通道 2</string>
                </property>
               </item>
              </widget>
@@ -236,8 +236,8 @@
             <string notr="true">background: #00aa00</string>
            </property>
            <property name="text">
-            <string>Select line to optimize</string>
-           </property>
+             <string>选择要优化的谱线</string>
+            </property>
           </widget>
          </item>
         </layout>
@@ -249,8 +249,8 @@
          <item>
           <widget class="QLabel" name="label_20">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Click and drag over the line you want to optimize&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;点击并拖动选择要优化的谱线&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
            <property name="scaledContents">
             <bool>false</bool>
            </property>
@@ -268,8 +268,8 @@
             <string notr="true">background-color: #d40000;</string>
            </property>
            <property name="text">
-            <string>Abort</string>
-           </property>
+             <string>取消</string>
+            </property>
           </widget>
          </item>
         </layout>
@@ -296,7 +296,7 @@
       <item>
        <widget class="QLabel" name="label_14">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Optimization running!&lt;/span&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;It usually takes some minutes to converge. So far, the steepness of the line was improved by&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;优化运行中！&lt;/span&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;通常需要几分钟才能收敛。到目前为止，谱线陡峭度已提高了&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="textFormat">
          <enum>Qt::RichText</enum>
@@ -329,7 +329,7 @@
       <item>
        <widget class="QLabel" name="optimization_display_parameters">
         <property name="text">
-         <string>display mod freq</string>
+         <string>显示调制频率</string>
         </property>
         <property name="textFormat">
          <enum>Qt::RichText</enum>
@@ -357,7 +357,7 @@
          <string notr="true">background-color: #00a400;</string>
         </property>
         <property name="text">
-         <string>Use optimized parameters</string>
+         <string>使用优化参数</string>
         </property>
        </widget>
       </item>
@@ -367,7 +367,7 @@
          <string notr="true">background-color: #d40000;</string>
         </property>
         <property name="text">
-         <string>Abort and revert</string>
+         <string>取消并恢复</string>
         </property>
        </widget>
       </item>
@@ -402,7 +402,7 @@
          <string notr="true">background-color: #d40000;</string>
         </property>
         <property name="text">
-         <string>Abort</string>
+         <string>取消</string>
         </property>
        </widget>
       </item>
@@ -462,7 +462,7 @@
          <string notr="true">background-color: #00a400;</string>
         </property>
         <property name="text">
-         <string>Try again</string>
+         <string>重试</string>
         </property>
        </widget>
       </item>

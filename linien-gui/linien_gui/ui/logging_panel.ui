@@ -29,7 +29,7 @@
    <item>
     <widget class="QGroupBox" name="influxCredentialGroupBox">
      <property name="title">
-      <string>InfluxDB v2 credentials</string>
+      <string>InfluxDB v2 凭据</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
@@ -51,7 +51,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="labelOrg">
           <property name="text">
-           <string>Organisation</string>
+           <string>组织</string>
           </property>
          </widget>
         </item>
@@ -79,7 +79,7 @@
         <item row="3" column="0">
          <widget class="QLabel" name="labelBucket">
           <property name="text">
-           <string>Bucket</string>
+           <string>存储桶</string>
           </property>
          </widget>
         </item>
@@ -93,7 +93,7 @@
         <item row="4" column="0">
          <widget class="QLabel" name="labelMeas">
           <property name="text">
-           <string>Measurement</string>
+           <string>测量</string>
           </property>
          </widget>
         </item>
@@ -111,7 +111,7 @@
         <item>
          <widget class="QPushButton" name="influxUpdateButton">
           <property name="text">
-           <string>Update / Check</string>
+           <string>更新/检查</string>
           </property>
          </widget>
         </item>
@@ -143,7 +143,7 @@
    <item>
     <widget class="QGroupBox" name="loggingGroupBox">
      <property name="title">
-      <string>Logging Parameters</string>
+      <string>日志记录参数</string>
      </property>
      <layout class="QVBoxLayout" name="loggingLayout">
       <item>
@@ -157,7 +157,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Logged Parameters</string>
+           <string>记录参数</string>
           </property>
          </widget>
         </item>
@@ -168,7 +168,7 @@
         <item>
          <widget class="QLabel" name="logIntervalLabel">
           <property name="text">
-           <string>Interval</string>
+           <string>间隔</string>
           </property>
          </widget>
         </item>
@@ -206,7 +206,7 @@
       <item>
        <widget class="QPushButton" name="logPushButton">
         <property name="text">
-         <string>Start Logging</string>
+         <string>开始记录</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
