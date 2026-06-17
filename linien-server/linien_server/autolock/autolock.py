@@ -23,6 +23,7 @@ from linien_common.common import (
     check_plot_data,
     combine_error_signal,
     get_lock_point,
+    get_lock_point_by_peak_valley_pairing,
 )
 from linien_server.autolock.algorithm_selection import AutolockAlgorithmSelector
 from linien_server.autolock.robust import RobustAutolock
@@ -253,6 +254,12 @@ class Autolock:
         - line_width: 线宽
         - peak_idxs: 峰值索引
         """
+        # 根据用户选择的锁定点算法计算锁频点参数
+        lock_point_fn = (
+            get_lock_point_by_peak_valley_pairing
+            if self.parameters.lock_point_algorithm.value == 1
+            else get_lock_point
+        )
         # 获取锁频点和相关参数
         (
             mean_signal,
@@ -261,7 +268,7 @@ class Autolock:
             error_signal_rolled,
             line_width,
             peak_idxs,
-        ) = get_lock_point(error_signal, self.x0, self.x1)
+        ) = lock_point_fn(error_signal, self.x0, self.x1)
 
         self.central_y = int(mean_signal)  # 记录中心位置
 

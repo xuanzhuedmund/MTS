@@ -537,6 +537,8 @@ class Parameters:
             start=AutolockMode.AUTO_DETECT, restorable=True
         )
         self.autolock_mode = Parameter(start=AutolockMode.SIMPLE)
+        # 锁定点算法选择：0=原算法(get_lock_point)，1=峰谷配对算法(get_lock_point_by_peak_valley_pairing)
+        self.lock_point_algorithm = Parameter(start=0, restorable=True)
         self.autolock_time_scale = Parameter(start=0)
         self.autolock_instructions = Parameter(start=[], sync=False)
         self.autolock_final_wait_time = Parameter(start=0)

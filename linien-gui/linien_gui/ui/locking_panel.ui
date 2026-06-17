@@ -457,6 +457,29 @@
            </widget>
           </item>
           <item>
+           <widget class="QGroupBox" name="lock_point_algorithm_group">
+            <property name="title">
+             <string>锁定点算法</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_lock_point_algo">
+             <item>
+              <widget class="QComboBox" name="lock_point_algorithm_combo">
+               <item>
+                <property name="text">
+                 <string>极值法（默认）</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>峰谷配对法</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="autoOffsetCheckbox">
             <property name="text">
              <string>确定信号偏移</string>

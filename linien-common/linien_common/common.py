@@ -266,6 +266,174 @@ def get_lock_point(
     )
 
 
+def get_lock_point_by_peak_valley_pairing(
+    error_signal: np.ndarray, x0: int, x1: int, final_zoom_factor: float = 1.5
+) -> Tuple[float, bool, float, np.ndarray, int, Tuple[int, int]]:
+    """基于寻峰和峰谷配对计算锁频参数。
+
+    与 `get_lock_point` 的返回值格式保持一致，但锁定点的确定方式不同：
+
+    算法流程：
+    1. 对 [x0, x1) 区间的误差信号进行寻峰（峰高度 > 最大值的一半）；
+    2. 对误差信号取反后再次寻峰，得到谷点（绝对值高度 > 最大值的一半）；
+    3. 对所有峰点和谷点按绝对值高度由大到小排序，依次进行配对：
+       - 若谷点在峰点之前，则该谷点之后第一个未被配对且绝对值最接近的峰点配对；
+       - 若谷点在峰点之后，则该谷点之前第一个未被配对且绝对值最接近的峰点配对；
+       - 每个峰点只能与一个谷点配对；
+    4. 每个峰谷对之间的过零点即为锁定点；
+    5. 最终选取第一个有效峰谷对的过零点作为目标锁定点。
+
+    参数:
+    - error_signal: 完整的误差信号数组
+    - x0, x1: 用户选定的锁频区域起止索引
+    - final_zoom_factor: 最终缩放因子，含义同 `get_lock_point`
+
+    返回:
+    - mean_signal: 峰谷对的均值（用于偏移调整）
+    - target_slope_rising: 目标斜率是否为上升
+    - target_zoom: 目标缩放因子
+    - rolled_error_signal: 滚动后使锁定点居中的误差信号
+    - line_width: 峰谷对的宽度（用于参考）
+    - peak_idxs: (峰点索引, 谷点索引) 的绝对索引
+    """
+    from scipy.signal import find_peaks
+
+    length = len(error_signal)
+
+    # 截取用户选定区域的数据
+    cropped = np.asarray(error_signal[x0:x1], dtype=float)
+    n = len(cropped)
+
+    # 全局最大绝对值，用作寻峰阈值基准
+    max_abs = float(np.max(np.abs(cropped)))
+    if max_abs == 0:
+        # 退化情况：直接复用原算法的极值逻辑
+        return get_lock_point(error_signal, x0, x1, final_zoom_factor)
+
+    threshold = max_abs / 2.0
+
+    # 寻找峰点（正峰）：高度需大于阈值
+    peak_idx_local, peak_props = find_peaks(cropped, height=threshold)
+    peaks = [
+        (int(idx), float(cropped[idx]))
+        for idx in peak_idx_local
+    ]
+
+    # 寻找谷点：对信号取反后寻峰，等价于高度绝对值大于阈值
+    valley_idx_local, valley_props = find_peaks(-cropped, height=threshold)
+    valleys = [
+        (int(idx), float(cropped[idx]))  # 保存原始信号值（负数）
+        for idx in valley_idx_local
+    ]
+
+    # 无峰或无谷时退化到原算法
+    if not peaks or not valleys:
+        return get_lock_point(error_signal, x0, x1, final_zoom_factor)
+
+    # 按绝对值高度由大到小排序
+    peaks_sorted = sorted(peaks, key=lambda p: abs(p[1]), reverse=True)
+    valleys_sorted = sorted(valleys, key=lambda v: abs(v[1]), reverse=True)
+
+    # 贪心配对：谷点按绝对值从大到小，依次在剩余未配对峰点中寻找配对
+    used_peaks = [False] * len(peaks_sorted)
+    pairs: List[Tuple[Tuple[int, float], Tuple[int, float]]] = []  # (valley, peak)
+
+    for valley in valleys_sorted:
+        v_idx, v_val = valley
+        # 候选峰点：未配对
+        candidates = [
+            (p_idx, p_val)
+            for (p_idx, p_val), used in zip(peaks_sorted, used_peaks)
+            if not used
+        ]
+        if not candidates:
+            break
+
+        # 判断当前谷与剩余候选峰的相对位置，确定搜索方向
+        # 取剩余候选峰中绝对值最高者作为参考峰
+        strongest_candidate = max(candidates, key=lambda kv: abs(kv[1]))
+        if v_idx < strongest_candidate[0]:
+            # 谷在最强候选峰之前：向后找
+            # "谷后第一个" = 谷之后（按索引顺序）的第一个峰，即最靠近谷的后者
+            after = [(pi, pv) for pi, pv in candidates if pi > v_idx]
+            if after:
+                # 取最靠近谷的那一个（位置最小者）
+                best_peak = min(after, key=lambda kv: kv[0])
+            else:
+                # 该侧无候选，退化到全局绝对值最接近
+                best_peak = min(candidates, key=lambda kv: abs(abs(kv[1]) - abs(v_val)))
+        else:
+            # 谷在最强候选峰之后：向前找
+            # "谷前第一个" = 谷之前（按索引顺序）的最后一个峰，即最靠近谷的前者
+            before = [(pi, pv) for pi, pv in candidates if pi < v_idx]
+            if before:
+                # 取最靠近谷的那一个（位置最大者）
+                best_peak = max(before, key=lambda kv: kv[0])
+            else:
+                best_peak = min(candidates, key=lambda kv: abs(abs(kv[1]) - abs(v_val)))
+
+        # 标记该峰为已用
+        for k, (p_idx, p_val) in enumerate(peaks_sorted):
+            if p_idx == best_peak[0] and not used_peaks[k]:
+                used_peaks[k] = True
+                break
+        pairs.append((valley, best_peak))
+
+    if not pairs:
+        return get_lock_point(error_signal, x0, x1, final_zoom_factor)
+
+    # 选择第一个配对作为锁定对（绝对值最高的谷对应的配对）
+    valley, peak = pairs[0]
+    v_idx_l, v_val = valley
+    p_idx_l, p_val = peak
+
+    # 确定峰谷的左右顺序
+    if p_idx_l < v_idx_l:
+        left_idx, left_val = p_idx_l, p_val
+        right_idx, right_val = v_idx_l, v_val
+    else:
+        left_idx, left_val = v_idx_l, v_val
+        right_idx, right_val = p_idx_l, p_val
+
+    # 峰谷对的均值
+    mean_signal = (left_val + right_val) / 2.0
+
+    # 在 [left_idx, right_idx] 区间内寻找过零点（最接近 0 的点）
+    segment = cropped[left_idx : right_idx + 1] - mean_signal
+    local_zero = left_idx + int(np.argmin(np.abs(segment)))
+    zero_idx = x0 + local_zero
+
+    # 斜率方向：左低右高则为上升
+    target_slope_rising = left_val < right_val
+
+    # 线宽 = 峰谷水平距离
+    line_width = abs(p_idx_l - v_idx_l)
+
+    # 滚动误差信号使锁定点居中
+    roll = -int(zero_idx - (length / 2))
+    filler = np.empty(abs(roll))
+    filler[:] = np.nan
+    if roll < 0:
+        rolled_error_signal = np.hstack((error_signal[-roll:], filler))
+    else:
+        rolled_error_signal = np.hstack((filler, error_signal[:-roll]))
+
+    # 缩放因子
+    peak_distance = abs(p_idx_l - v_idx_l)
+    target_zoom = N_POINTS / max(peak_distance, 1) / final_zoom_factor
+
+    peak_idxs = (int(x0 + p_idx_l), int(x0 + v_idx_l))
+
+    return (
+        float(mean_signal),
+        bool(target_slope_rising),
+        float(target_zoom),
+        np.array(rolled_error_signal),
+        int(line_width),
+        peak_idxs,
+    )
+
+
 def convert_channel_mixing_value(value: int) -> Tuple[int, int]:
     if value <= 0:
         a_value = 128

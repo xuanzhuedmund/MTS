@@ -28,6 +28,7 @@ from linien_common.common import (
     combine_error_signal,
     determine_shift_by_correlation,
     get_lock_point,
+    get_lock_point_by_peak_valley_pairing,
     get_signal_strength_from_i_q,
     update_signal_history,
 )
@@ -321,7 +322,11 @@ class PlotWidget(pg.PlotWidget):
                             rolled_error_signal,
                             line_width,
                             peak_idxs,
-                        ) = get_lock_point(
+                        ) = (
+                            get_lock_point_by_peak_valley_pairing
+                            if self.parameters.lock_point_algorithm.value == 1
+                            else get_lock_point
+                        )(
                             last_combined_error_signal, *sorted((int(x0), int(x)))
                         )
                         self.autolock_ref_spectrum = rolled_error_signal

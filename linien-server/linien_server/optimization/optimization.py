@@ -19,7 +19,11 @@ import logging
 import pickle
 
 import numpy as np
-from linien_common.common import determine_shift_by_correlation, get_lock_point
+from linien_common.common import (
+    determine_shift_by_correlation,
+    get_lock_point,
+    get_lock_point_by_peak_valley_pairing,
+)
 
 from .approach_line import Approacher
 from .engine import OptimizerEngine
@@ -66,6 +70,11 @@ class OptimizeSpectroscopy:
         params.optimization_improvement.value = 0
 
     def record_first_error_signal(self, error_signal):
+        lock_point_fn = (
+            get_lock_point_by_peak_valley_pairing
+            if self.parameters.lock_point_algorithm.value == 1
+            else get_lock_point
+        )
         (
             mean_signal,
             _2,
@@ -73,7 +82,7 @@ class OptimizeSpectroscopy:
             rolled_error_signal,
             line_width,
             peak_idxs,
-        ) = get_lock_point(
+        ) = lock_point_fn(
             error_signal,
             *list(sorted([self.x0, self.x1])),
             final_zoom_factor=FINAL_ZOOM_FACTOR,

@@ -35,6 +35,7 @@ class LockingPanel(QtWidgets.QWidget):
     auto_mode_not_activated: QtWidgets.QWidget
     autoOffsetCheckbox: QtWidgets.QCheckBox
     autolock_mode_preference: QtWidgets.QComboBox
+    lock_point_algorithm_combo: QtWidgets.QComboBox
     selectLineToLock: QtWidgets.QPushButton
     manual_mode: QtWidgets.QWidget
     button_slope_falling: QtWidgets.QRadioButton
@@ -73,6 +74,10 @@ class LockingPanel(QtWidgets.QWidget):
 
         self.autolock_mode_preference.currentIndexChanged.connect(
             self.autolock_mode_preference_changed
+        )
+
+        self.lock_point_algorithm_combo.currentIndexChanged.connect(
+            self.lock_point_algorithm_changed
         )
 
     def on_connection_established(self):
@@ -137,6 +142,10 @@ class LockingPanel(QtWidgets.QWidget):
             self.parameters.autolock_mode_preference, self.autolock_mode_preference
         )
 
+        param2ui(
+            self.parameters.lock_point_algorithm, self.lock_point_algorithm_combo
+        )
+
     def kp_changed(self):
         self.parameters.p.value = self.kpSpinBox.value()
         self.control.write_registers()
@@ -154,6 +163,9 @@ class LockingPanel(QtWidgets.QWidget):
 
     def autolock_mode_preference_changed(self, idx):
         self.parameters.autolock_mode_preference.value = idx
+
+    def lock_point_algorithm_changed(self, idx):
+        self.parameters.lock_point_algorithm.value = idx
 
     def start_manual_lock(self):
         self.parameters.target_slope_rising.value = self.button_slope_rising.isChecked()

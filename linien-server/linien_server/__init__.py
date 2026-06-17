@@ -19,6 +19,17 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 import importlib_metadata
+
+# 通过相对路径直接导入 linien-common 包，避免依赖该包的安装
+import os as _os
+import sys as _sys
+
+_COMMON_ROOT = _os.path.abspath(
+    _os.path.join(_os.path.dirname(__file__), _os.pardir, _os.pardir, "linien-common")
+)
+if _COMMON_ROOT not in _sys.path:
+    _sys.path.insert(0, _COMMON_ROOT)
+
 from linien_common.config import LOG_FILE_PATH
 
 # __version__ = importlib_metadata.version("linien-server")  # noqa: F401
