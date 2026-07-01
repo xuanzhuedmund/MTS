@@ -70,46 +70,62 @@ Autolock.run(x0, x1, spectrum)
         │
         ▼
 PlotWidget.mouseReleaseEvent()
-        │  [linien-gui/linien_gui/ui/plot_widget.py:287-326]
+        │  [linien-gui/linien_gui/ui/plot_widget.py:287-333]
         │
         ├──► get_lock_point(combined_error_signal, x0, x)   ← 第1次调用（GUI端预览）
-        │    [plot_widget.py:324]
+        │    [plot_widget.py:310-323]
         │    用途：生成 autolock_ref_spectrum，用于实时显示锁定目标线
         │
-        ▼
-self.control.start_autolock(x0, x1, spectrum)
-        │  [plot_widget.py:309]
-        │  （通过 rpyc RPC 发送到服务器）
-        ▼
-Server.exposed_start_autolock(x0, x1, spectrum)
-        │  [linien-server/linien_server/server.py:258]
-        ▼
-Autolock.__init__() → Autolock.run()
-        │  [linien-server/linien_server/autolock/autolock.py:36]
-        ▼
-Autolock.record_first_error_signal(error_signal, auto_offset)
-        │  [autolock.py:242]
+        │    ──► 检查 autolock_enabled 参数 ──┐
+        │                                       │
+        │    ┌──────────────────────────────────┘
+        │    │
+        │    ▼ (autolock_enabled = True)
+        │  self.control.start_autolock(x0, x1, spectrum)
+        │    │  [plot_widget.py:326-333]
+        │    │  （通过 rpyc RPC 发送到服务器）
+        │    ▼
+        │  Server.exposed_start_autolock(x0, x1, spectrum)
+        │    │  [linien-server/linien_server/server.py:258]
+        │    ▼
+        │  Autolock.__init__() → Autolock.run()
+        │    │  [linien-server/linien_server/autolock/autolock.py:36]
+        │    ▼
+        │  Autolock.record_first_error_signal(error_signal, auto_offset)
+        │    │  [autolock.py:242]
+        │    │
+        │    ├──► get_lock_point(error_signal, self.x0, self.x1)   ← 第2次调用（服务器端）
+        │    │    [autolock.py:264]
+        │    │    用途：计算真正的锁频参数
+        │    │
+        │    │    返回：
+        │    │      • mean_signal        → 用于自动偏移调整
+        │    │      • target_slope_rising→ 写入参数寄存器
+        │    │      • target_zoom        → 缩放控制
+        │    │      • error_signal_rolled→ 作为参考光谱
+        │    │      • line_width         → 线宽信息
+        │    │      • peak_idxs          → 峰值索引
+        │    ▼
+        │  SimpleAutolock 或 RobustAutolock 使用这些参数执行锁频
         │
-        ├──► get_lock_point(error_signal, self.x0, self.x1)   ← 第2次调用（服务器端）
-        │    [autolock.py:264]
-        │    用途：计算真正的锁频参数
-        │
-        │    返回：
-        │      • mean_signal        → 用于自动偏移调整
-        │      • target_slope_rising→ 写入参数寄存器
-        │      • target_zoom        → 缩放控制
-        │      • error_signal_rolled→ 作为参考光谱
-        │      • line_width         → 线宽信息
-        │      • peak_idxs          → 峰值索引
-        ▼
-SimpleAutolock 或 RobustAutolock 使用这些参数执行锁频
+        │    ▼ (autolock_enabled = False)
+        │  仅更新 autolock_ref_spectrum，不调用服务器锁频
+        │  目标线仍然显示，但不会执行实际的 PID 锁定
 ```
+
+### "执行锁定"复选框的控制逻辑
+
+| 状态 | autolock_enabled | 行为 |
+|------|------------------|------|
+| ✅ 勾选（默认） | True | 计算锁定点 + 显示目标线 + 执行完整锁频流程 |
+| ❌ 未勾选 | False | 计算锁定点 + 显示目标线 + **不执行锁频** |
 
 ### 关键代码位置
 
 | 步骤 | 文件 | 行号 |
 |------|------|------|
-| GUI 调用 | `linien-gui/linien_gui/ui/plot_widget.py` | 324 |
+| GUI 调用 | `linien-gui/linien_gui/ui/plot_widget.py` | 310-333 |
+| 参数检查 | `linien-gui/linien_gui/ui/plot_widget.py` | 326 |
 | RPC 入口 | `linien-server/linien_server/server.py` | 258 |
 | 服务器调用 | `linien-server/linien_server/autolock/autolock.py` | 264 |
 

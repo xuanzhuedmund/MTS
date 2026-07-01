@@ -551,6 +551,7 @@ class Parameters:
         self.autolock_locked = Parameter(start=False)
         self.autolock_retrying = Parameter(start=False)
         self.autolock_determine_offset = Parameter(start=True, restorable=True)
+        self.autolock_enabled = Parameter(start=True, restorable=True)
         self.autolock_initial_sweep_amplitude = Parameter(start=1)
 
         # ------------------- OPTIMIZATION PARAMETERS ----------------------------------

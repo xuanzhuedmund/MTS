@@ -266,6 +266,128 @@ def get_lock_point(
     )
 
 
+def get_all_lock_points_by_peak_valley_pairing(
+    error_signal: np.ndarray, x0: int, x1: int
+) -> List[int]:
+    """计算所有峰谷对的锁定点位置。
+
+    参数:
+    - error_signal: 完整的误差信号数组
+    - x0, x1: 用户选定的锁频区域起止索引
+
+    返回:
+    - 所有峰谷对的锁定点索引列表（按配对强度降序排列）
+    """
+    from scipy.signal import find_peaks
+
+    cropped = np.asarray(error_signal[x0:x1], dtype=float)
+    max_abs = float(np.max(np.abs(cropped)))
+
+    if max_abs == 0:
+        return []
+
+    threshold = max_abs / 2.0
+
+    peak_idx_local, _ = find_peaks(cropped, height=threshold)
+    peaks = [
+        (int(idx), float(cropped[idx]))
+        for idx in peak_idx_local
+    ]
+
+    valley_idx_local, _ = find_peaks(-cropped, height=threshold)
+    valleys = [
+        (int(idx), float(cropped[idx]))
+        for idx in valley_idx_local
+    ]
+
+    if not peaks or not valleys:
+        return []
+
+    peaks_sorted = sorted(peaks, key=lambda p: abs(p[1]), reverse=True)
+    valleys_sorted = sorted(valleys, key=lambda v: abs(v[1]), reverse=True)
+
+    # 使用统一的配对逻辑（每个峰和每个谷至多参与一次配对）
+    pairs = _pair_peaks_valleys(peaks_sorted, valleys_sorted)
+
+    lock_points = []
+    for valley, peak in pairs:
+        v_idx, v_val = valley
+        p_idx_l, p_val = peak
+
+        if p_idx_l < v_idx:
+            left_idx, left_val = p_idx_l, p_val
+            right_idx, right_val = v_idx, v_val
+        else:
+            left_idx, left_val = v_idx, v_val
+            right_idx, right_val = p_idx_l, p_val
+
+        mean_signal = (left_val + right_val) / 2.0
+        segment = cropped[left_idx : right_idx + 1] - mean_signal
+        local_zero = left_idx + int(np.argmin(np.abs(segment)))
+        zero_idx = x0 + local_zero
+        lock_points.append(zero_idx)
+
+    return lock_points
+
+
+def _pair_peaks_valleys(
+    peaks_sorted: List[Tuple[int, float]],
+    valleys_sorted: List[Tuple[int, float]],
+) -> List[Tuple[Tuple[int, float], Tuple[int, float]]]:
+    """峰谷贪心配对的核心逻辑。
+
+    保证每个峰和每个谷至多参与一次配对（双向唯一）。
+
+    策略：谷按绝对值从大到小遍历，每个谷在剩余未配对峰中
+    寻找距离最近的配对峰。若该侧无候选则跳过该谷（不强制配对）。
+    """
+    used_peaks = [False] * len(peaks_sorted)
+    used_valleys = [False] * len(valleys_sorted)
+    pairs: List[Tuple[Tuple[int, float], Tuple[int, float]]] = []
+
+    for vi, valley in enumerate(valleys_sorted):
+        v_idx, v_val = valley
+        if used_valleys[vi]:
+            continue
+
+        # 候选峰点：未配对
+        candidates = [
+            (p_idx, p_val)
+            for (p_idx, p_val), used in zip(peaks_sorted, used_peaks)
+            if not used
+        ]
+        if not candidates:
+            break
+
+        # 判断当前谷与剩余候选峰的相对位置，确定搜索方向
+        strongest_candidate = max(candidates, key=lambda kv: abs(kv[1]))
+        if v_idx < strongest_candidate[0]:
+            # 谷在最强候选峰之前：向后找最近的峰
+            after = [(pi, pv) for pi, pv in candidates if pi > v_idx]
+            if after:
+                best_peak = min(after, key=lambda kv: kv[0])
+            else:
+                # 该侧无候选，跳过此谷（不强制跨区域配对）
+                continue
+        else:
+            # 谷在最强候选峰之后：向前找最近的峰
+            before = [(pi, pv) for pi, pv in candidates if pi < v_idx]
+            if before:
+                best_peak = max(before, key=lambda kv: kv[0])
+            else:
+                continue
+
+        # 标记该峰和该谷为已用
+        for k, (p_idx, p_val) in enumerate(peaks_sorted):
+            if p_idx == best_peak[0] and not used_peaks[k]:
+                used_peaks[k] = True
+                break
+        used_valleys[vi] = True
+        pairs.append((valley, best_peak))
+
+    return pairs
+
+
 def get_lock_point_by_peak_valley_pairing(
     error_signal: np.ndarray, x0: int, x1: int, final_zoom_factor: float = 1.5
 ) -> Tuple[float, bool, float, np.ndarray, int, Tuple[int, int]]:
@@ -277,9 +399,9 @@ def get_lock_point_by_peak_valley_pairing(
     1. 对 [x0, x1) 区间的误差信号进行寻峰（峰高度 > 最大值的一半）；
     2. 对误差信号取反后再次寻峰，得到谷点（绝对值高度 > 最大值的一半）；
     3. 对所有峰点和谷点按绝对值高度由大到小排序，依次进行配对：
-       - 若谷点在峰点之前，则该谷点之后第一个未被配对且绝对值最接近的峰点配对；
-       - 若谷点在峰点之后，则该谷点之前第一个未被配对且绝对值最接近的峰点配对；
-       - 每个峰点只能与一个谷点配对；
+       - 谷按绝对值从大到小遍历，每个谷在剩余未配对峰中寻找最近的峰；
+       - 若谷在峰之前，取谷之后最近的峰；若谷在峰之后，取谷之前最近的峰；
+       - 每个峰和每个谷至多参与一次配对（双向唯一）；
     4. 每个峰谷对之间的过零点即为锁定点；
     5. 最终选取第一个有效峰谷对的过零点作为目标锁定点。
 
@@ -334,50 +456,8 @@ def get_lock_point_by_peak_valley_pairing(
     peaks_sorted = sorted(peaks, key=lambda p: abs(p[1]), reverse=True)
     valleys_sorted = sorted(valleys, key=lambda v: abs(v[1]), reverse=True)
 
-    # 贪心配对：谷点按绝对值从大到小，依次在剩余未配对峰点中寻找配对
-    used_peaks = [False] * len(peaks_sorted)
-    pairs: List[Tuple[Tuple[int, float], Tuple[int, float]]] = []  # (valley, peak)
-
-    for valley in valleys_sorted:
-        v_idx, v_val = valley
-        # 候选峰点：未配对
-        candidates = [
-            (p_idx, p_val)
-            for (p_idx, p_val), used in zip(peaks_sorted, used_peaks)
-            if not used
-        ]
-        if not candidates:
-            break
-
-        # 判断当前谷与剩余候选峰的相对位置，确定搜索方向
-        # 取剩余候选峰中绝对值最高者作为参考峰
-        strongest_candidate = max(candidates, key=lambda kv: abs(kv[1]))
-        if v_idx < strongest_candidate[0]:
-            # 谷在最强候选峰之前：向后找
-            # "谷后第一个" = 谷之后（按索引顺序）的第一个峰，即最靠近谷的后者
-            after = [(pi, pv) for pi, pv in candidates if pi > v_idx]
-            if after:
-                # 取最靠近谷的那一个（位置最小者）
-                best_peak = min(after, key=lambda kv: kv[0])
-            else:
-                # 该侧无候选，退化到全局绝对值最接近
-                best_peak = min(candidates, key=lambda kv: abs(abs(kv[1]) - abs(v_val)))
-        else:
-            # 谷在最强候选峰之后：向前找
-            # "谷前第一个" = 谷之前（按索引顺序）的最后一个峰，即最靠近谷的前者
-            before = [(pi, pv) for pi, pv in candidates if pi < v_idx]
-            if before:
-                # 取最靠近谷的那一个（位置最大者）
-                best_peak = max(before, key=lambda kv: kv[0])
-            else:
-                best_peak = min(candidates, key=lambda kv: abs(abs(kv[1]) - abs(v_val)))
-
-        # 标记该峰为已用
-        for k, (p_idx, p_val) in enumerate(peaks_sorted):
-            if p_idx == best_peak[0] and not used_peaks[k]:
-                used_peaks[k] = True
-                break
-        pairs.append((valley, best_peak))
+    # 执行配对（每个峰和每个谷至多参与一次配对）
+    pairs = _pair_peaks_valleys(peaks_sorted, valleys_sorted)
 
     if not pairs:
         return get_lock_point(error_signal, x0, x1, final_zoom_factor)

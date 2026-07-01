@@ -33,6 +33,7 @@ class LockingPanel(QtWidgets.QWidget):
     auto_mode_activated: QtWidgets.QWidget
     abortLineSelection: QtWidgets.QPushButton
     auto_mode_not_activated: QtWidgets.QWidget
+    executeLockCheckbox: QtWidgets.QCheckBox
     autoOffsetCheckbox: QtWidgets.QCheckBox
     autolock_mode_preference: QtWidgets.QComboBox
     lock_point_algorithm_combo: QtWidgets.QComboBox
@@ -64,6 +65,7 @@ class LockingPanel(QtWidgets.QWidget):
 
         self.manualLockButton.clicked.connect(self.start_manual_lock)
         self.autoOffsetCheckbox.stateChanged.connect(self.auto_offset_changed)
+        self.executeLockCheckbox.stateChanged.connect(self.execute_lock_changed)
 
         self.pid_on_slow_strength.setKeyboardTracking(False)
         self.pid_on_slow_strength.valueChanged.connect(
@@ -89,6 +91,7 @@ class LockingPanel(QtWidgets.QWidget):
         param2ui(self.parameters.d, self.kdSpinBox)
 
         param2ui(self.parameters.autolock_determine_offset, self.autoOffsetCheckbox)
+        param2ui(self.parameters.autolock_enabled, self.executeLockCheckbox)
         param2ui(
             self.parameters.automatic_mode,
             self.lock_control_container,
@@ -178,6 +181,11 @@ class LockingPanel(QtWidgets.QWidget):
     def auto_offset_changed(self):
         self.parameters.autolock_determine_offset.value = int(
             self.autoOffsetCheckbox.checkState()
+        )
+
+    def execute_lock_changed(self):
+        self.parameters.autolock_enabled.value = int(
+            self.executeLockCheckbox.checkState()
         )
 
     def pid_on_slow_strength_changed(self):

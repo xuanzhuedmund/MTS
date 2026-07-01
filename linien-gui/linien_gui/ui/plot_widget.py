@@ -27,6 +27,7 @@ from linien_common.common import (
     check_plot_data,
     combine_error_signal,
     determine_shift_by_correlation,
+    get_all_lock_points_by_peak_valley_pairing,
     get_lock_point,
     get_lock_point_by_peak_valley_pairing,
     get_signal_strength_from_i_q,
@@ -218,6 +219,14 @@ class PlotWidget(pg.PlotWidget):
         self.lock_target_line = pg.InfiniteLine(movable=False)
         self.lock_target_line.setValue(1000)
         self.addItem(self.lock_target_line)
+
+        self.lock_point_lines = []
+        for _ in range(10):
+            line = pg.InfiniteLine(movable=False, pen=pg.mkPen("y", width=1, style=QtCore.Qt.DashLine))
+            line.setVisible(False)
+            self.addItem(line)
+            self.lock_point_lines.append(line)
+
         self._fixed_opengl_bug = False
 
         self.last_plot_time = 0
@@ -307,14 +316,6 @@ class PlotWidget(pg.PlotWidget):
                         last_combined_error_signal = self.last_plot_data[2]
                         self.parameters.autolock_selection.value = False
 
-                        self.control.start_autolock(
-                            # we pickle it here because otherwise a netref is
-                            # transmitted which blocks the autolock
-                            *sorted([x0, x]),
-                            pickle.dumps(last_combined_error_signal),
-                            additional_spectra=pickle.dumps(self.cached_plot_data),
-                        )
-
                         (
                             mean_signal,
                             target_slope_rising,
@@ -330,6 +331,23 @@ class PlotWidget(pg.PlotWidget):
                             last_combined_error_signal, *sorted((int(x0), int(x)))
                         )
                         self.autolock_ref_spectrum = rolled_error_signal
+
+                        if self.parameters.lock_point_algorithm.value == 1:
+                            all_lock_points = get_all_lock_points_by_peak_valley_pairing(
+                                last_combined_error_signal, *sorted((int(x0), int(x)))
+                            )
+                            self.show_all_lock_points(all_lock_points)
+                        else:
+                            self.hide_all_lock_points()
+
+                        if self.parameters.autolock_enabled.value:
+                            self.control.start_autolock(
+                                # we pickle it here because otherwise a netref is
+                                # transmitted which blocks the autolock
+                                *sorted([x0, x]),
+                                pickle.dumps(last_combined_error_signal),
+                                additional_spectra=pickle.dumps(self.cached_plot_data),
+                            )
                     elif self.parameters.optimization_selection.value:
                         channel = self.parameters.optimization_channel.value
                         spectrum = self.last_plot_data[
@@ -368,9 +386,11 @@ class PlotWidget(pg.PlotWidget):
             self.parameters.optimization_selection.value = False
             self.enable_area_selection(selectable_width=0.99)
             self.pause_plot()
+            self.hide_all_lock_points()
         elif not self.parameters.optimization_selection.value:
             self.disable_area_selection()
             self.resume_plot_and_clear_cache()
+            self.hide_all_lock_points()
 
     def on_optimization_selection_changed(self, value):
         if value:
@@ -724,6 +744,20 @@ class PlotWidget(pg.PlotWidget):
 
         for overlay in self.boundary_overlays:
             overlay.setVisible(False)
+
+    def show_all_lock_points(self, lock_points):
+        """显示所有峰谷对的锁定点位置"""
+        for i, line in enumerate(self.lock_point_lines):
+            if i < len(lock_points):
+                line.setValue(lock_points[i])
+                line.setVisible(True)
+            else:
+                line.setVisible(False)
+
+    def hide_all_lock_points(self):
+        """隐藏所有辅助锁定点线"""
+        for line in self.lock_point_lines:
+            line.setVisible(False)
 
     def pause_plot(self):
         """
